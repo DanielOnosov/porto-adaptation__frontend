@@ -125,18 +125,6 @@
         <div class="tab-content col-lg-12"></div>
       </div>
 
-      <ais-instant-search
-          :search-client="searchClient"
-          :index-name="indexName"
-          :routing="routing">
-        <ais-index index-name="related_items">
-          <ais-experimental-configure-related-items
-              :hit="hit"
-              :matchingPatterns="matchingPatterns"
-          />
-          <ais-hits/>
-        </ais-index>
-      </ais-instant-search>
       <hr class="mt-0 m-b-5"/>
 
       <pv-tabs class="product-single-tabs">
@@ -448,37 +436,6 @@ import PvTabs from '~/components/features/PvTabs';
 import {mapActions, mapGetters} from "vuex";
 import 'instantsearch.css/themes/algolia-min.css'
 
-import {AisExperimentalConfigureRelatedItems, AisHits, AisIndex, AisInstantSearch} from "vue-instantsearch"; // eslint-disable-line import/no-unresolved
-
-import {history as historyRouter} from "instantsearch.js/es/lib/routers";
-import {singleIndex as singleIndexMapping} from "instantsearch.js/es/lib/stateMappings";
-
-import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
-import 'instantsearch.css/themes/algolia-min.css'
-
-const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
-  server: {
-    apiKey: "ADuYFSr0041DvbT2lDUBt99dC8prt6z2ukE8rzAc4WBxKseo", // Be sure to use an API key that only allows search operations
-    nodes: [
-      {
-        host: "typesense.world.ms",
-        port: "443",
-        protocol: "https"
-        // path: "/api/search"
-      }
-    ],
-    cacheSearchResultsForSeconds: 2 * 60, // Cache search results from server. Defaults to 2 minutes. Set to 0 to disable caching.
-    connectionTimeoutSeconds: 1,
-    numRetries: 8
-  },
-
-  additionalSearchParameters: {
-    queryBy: "name,brand_name"
-  }
-});
-
-const indexName = "products";
-const searchClient = typesenseInstantsearchAdapter.searchClient;
 
 var token = '5DbWTsKyseQHD7Tk9xYCAhwKzPdUJjLtdzw5E3FnL8XxDfQCe3d7eEd6MvwTNuKa';
 var id = "a6ec5d3c-5d43-4585-bc71-8f40d09ff6d3";
@@ -490,11 +447,7 @@ export default {
     PvRelatedProducts,
     PvSmallCollection,
     PvQuantityInput,
-    PvTabs,
-    AisExperimentalConfigureRelatedItems,
-    AisHits,
-    AisIndex,
-    AisInstantSearch
+    PvTabs
   },
   async asyncData({$axios, route, app, params, req, res, redirect}) {
     // USE ONLY SERVER SIDE
