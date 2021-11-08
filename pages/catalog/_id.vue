@@ -530,18 +530,6 @@ export default {
       isCustom: false,
       isFullwidth: false,
       isAddition: false,
-      hit: {
-        objectID: '1234',
-        name: 'Remote controller',
-        brand: 'Amazon',
-        categories: ['TV & Home Theater', 'Streaming Media Players'],
-      },
-      searchClient,
-      indexName: indexName,
-      routing: {
-        router: historyRouter(),
-        stateMapping: singleIndexMapping(indexName)
-      }
     };
   },
   watch: {
