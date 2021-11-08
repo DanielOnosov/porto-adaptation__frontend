@@ -150,6 +150,10 @@ export default {
     // loadingIndicator: false,
     // pageTransition: 'page',
 
+    generate: {
+        dir: 'dist'
+    } ,
+
     server: {
         port: 4000,
         host: 'localhost'
