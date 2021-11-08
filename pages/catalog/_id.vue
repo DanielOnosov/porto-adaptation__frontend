@@ -26,6 +26,7 @@
           <li
               class="breadcrumb-item active"
               aria-current="page"
+              v-if="product.name"
           >{{ product.name }}
           </li>
         </ol>
@@ -45,7 +46,7 @@
           </div>
 
           <div class="col-lg-7 col-md-6 product-single-details">
-            <h1 class="product-title">{{ product.name }}</h1>
+            <h1 class="product-title" v-if="product.name">{{ product.name }}</h1>
             <hr class="short-divider">
             <div class="price-box">
               <span class="new-price">
