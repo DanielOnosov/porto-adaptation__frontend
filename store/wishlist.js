@@ -10,6 +10,11 @@ export const state = () => (
 export const getters = {
     wishList: state => {
         return state.data;
+    },
+    totalCount: state => {
+        return state.data.reduce( ( acc, cur ) => {
+            return acc + parseInt( cur.qty, 10 );
+        }, 0 );
     }
 }
 
@@ -24,7 +29,7 @@ export const actions = {
 
 export const mutations = {
     [ ADD_TO_WISHLIST ]( state, payload ) {
-        let isAdded = state.data.findIndex( item => item.name === payload.product.name ) > -1;
+        let isAdded = state.data.findIndex( item => item.id === payload.product.id ) > -1;
         if ( !isAdded ) {
             state.data.push( payload.product );
         }

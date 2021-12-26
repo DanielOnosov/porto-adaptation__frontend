@@ -25,7 +25,7 @@
 			>×</a>
 
 			<div class="dropdownmenu-wrapper custom-scrollbar">
-				<div class="dropdown-cart-header">Shopping Cart</div>
+				<div class="dropdown-cart-header">Корзина</div>
 
 				<template v-if="cartList.length > 0">
 					<div class="dropdown-cart-products">
@@ -40,8 +40,8 @@
 								</h4>
 
 								<span class="cart-product-info">
-									<span class="cart-product-qty">{{ product.qty }}</span>
-									× ${{ product.price | priceFormat }}
+									<span class="cart-product-qty"></span>
+									{{ product.price | priceFormat }}₽
 								</span>
 							</div>
 
@@ -66,27 +66,27 @@
 					</div>
 
 					<div class="dropdown-cart-total">
-						<span>SUBTOTAL:</span>
+						<span>Итог:</span>
 
-						<span class="cart-total-price float-right">${{ totalPrice | priceFormat }}</span>
+						<span class="cart-total-price float-right">{{ totalPrice | priceFormat }}₽</span>
 					</div>
 
 					<div class="dropdown-cart-action">
 						<nuxt-link
 							to="/pages/cart"
 							class="btn btn-gray btn-block view-cart"
-						>View Cart</nuxt-link>
+						>Посмотреть корзину</nuxt-link>
 						<nuxt-link
 							to="/pages/checkout"
 							class="btn btn-dark btn-block"
-						>Checkout</nuxt-link>
+						>Оформить заказ</nuxt-link>
 					</div>
 				</template>
 
 				<p
 					v-else
 					class="cart-empty-text"
-				>No products in the cart.</p>
+				>Нет добавленых продуктов в корзине</p>
 			</div>
 		</div>
 	</div>

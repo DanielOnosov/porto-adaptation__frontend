@@ -36,33 +36,34 @@
 							<form
 								class="mb-0"
 								action="#"
+                @submit.prevent="getRecoveryLink"
 							>
 								<p>
-									Lost your password? Please enter your
-									username or email address. You will receive
-									a link to create a new password via email.
+                  Забыли пароль? Пожалуйста, введите ваш адрес электронной почты. Вы получите
+                  ссылку для создания нового пароля по электронной почте.
 								</p>
 								<div class="form-group mb-0">
 									<label
 										for="reset-email"
 										class="font-weight-normal"
-									>Username or email</label>
+									>Email</label>
 									<input
 										type="email"
 										class="form-control"
 										id="reset-email"
 										name="reset-email"
 										required
+                    v-model="email"
 									/>
 								</div>
 
 								<div class="form-footer mb-0">
-									<nuxt-link to="/pages/login">Click here to login</nuxt-link>
+									<nuxt-link to="/pages/login">Нажмите здесь, чтобы войти</nuxt-link>
 
 									<button
 										type="submit"
 										class="btn btn-md btn-primary form-footer-right font-weight-normal text-transform-none mr-0"
-									>Reset Password</button>
+									>Отправить письмо</button>
 								</div>
 							</form>
 						</div>
@@ -74,7 +75,42 @@
 </template>
 
 <script>
-export default {
+import MD5 from "crypto-js/md5";
 
+export default {
+  async asyncData({ req}){
+    if(process.server){
+      const protocol = req.connection.encrypted ? "https" : "http";
+      const host = `${protocol}://${req.headers.host}`;
+
+      return {
+        host
+      }
+    }
+  },
+  methods: {
+    async getRecoveryLink() {
+      let url = `${this.host}/api/back/items/clients/${this.$route.params.id}`
+
+      const hash = MD5(this.email).toString()
+
+      this.$mail.send({
+        from: 'devtestbox@yandex.ru',
+        subject: 'Contact form message',
+        to: this.email,
+        text: `http://${process.env.SITE_URL}/activate/?email=${this.email}&activate=${hash}`,
+      })
+
+      await this.$axios.$patch(url, {
+        status: 'inactive',
+        password_recovery_link: 'new_password.generate_some_strong_hash'
+      })
+    },
+  },
+  data(){
+    return {
+      email: ''
+    }
+  }
 }
 </script>

@@ -3,20 +3,20 @@
 		<div class="container checkout-container">
 			<ul class="checkout-progress-bar d-flex justify-content-center flex-wrap">
 				<li>
-					<nuxt-link to="/pages/cart">Shopping Cart</nuxt-link>
+					<a href="/pages/cart">Корзина</a>
 				</li>
 				<li class="active">
-					<nuxt-link to="/pages/checkout">Checkout</nuxt-link>
+					<a href="/pages/checkout">Оформление заказа</a>
 				</li>
 				<li class="disabled">
-					<a href="javascript:;">Order Complete</a>
+					<a href="javascript:;">Заказ завершен</a>
 				</li>
 			</ul>
 
 			<template v-if="cartList.length > 0">
 				<div class="login-form-container">
 					<h4>
-						Returning customer?
+            Уже делали покупки?
 						<button
 							data-toggle="collapse"
 							data-target="#collapseOne"
@@ -24,7 +24,7 @@
 							aria-controls="collapseOne"
 							class="btn btn-link btn-toggle"
 							@click="loginOpened = !loginOpened"
-						>Login</button>
+						>Войти</button>
 					</h4>
 
 					<vue-slide-toggle :open="loginOpened">
@@ -35,15 +35,15 @@
 									id="login-form"
 								>
 									<p>
-										If you have shopped with us before, please enter your details below. If you are
-										a new customer, please proceed to the Billing & Shipping section.
+                    Если вы делали покупки у нас раньше, введите свои данные ниже. Если ты
+                    новый клиент, перейдите в раздел "Счета и доставка".
 									</p>
 
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="mb-0 pb-1">
-													Username or email
+                          Имя пользователя или адрес электронной почты
 													<span class="required">*</span>
 												</label>
 												<input
@@ -57,7 +57,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label class="mb-0 pb-1">
-													Password
+													Пароль
 													<span class="required">*</span>
 												</label>
 												<input
@@ -72,7 +72,7 @@
 									<button
 										type="submit"
 										class="btn"
-									>LOGIN</button>
+									>Логин</button>
 
 									<div class="form-footer mb-1">
 										<div class="custom-control custom-checkbox mb-0 mt-0">
@@ -85,15 +85,14 @@
 												class="custom-control-label mb-0"
 												for="lost-password"
 											>
-												Remember
-												me
+												Запомнить меня
 											</label>
 										</div>
 
-										<nuxt-link
-											to="/pages/forgot-password"
+										<a
+											href="/pages/forgot-password"
 											class="forget-password"
-										>Lost your password?</nuxt-link>
+										>Забыли пароль?</a>
 									</div>
 								</form>
 							</div>
@@ -101,8 +100,7 @@
 					</vue-slide-toggle>
 				</div>
 
-				<div class="checkout-discount">
-					<h4>
+<!--				<div class="checkout-discount">					<h4>
 						Have a coupon?
 						<button
 							data-toggle="collapse"
@@ -138,13 +136,15 @@
 							</div>
 						</div>
 					</vue-slide-toggle>
-				</div>
+				</div>-->
 
 				<div class="row">
 					<div class="col-lg-7">
 						<ul class="checkout-steps">
 							<li>
-								<h2 class="step-title">Billing details</h2>
+								<h2 class="step-title">
+                  Платежные реквизиты
+                </h2>
 
 								<form
 									action="#"
@@ -154,7 +154,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>
-													First name
+													Имя
 													<abbr
 														class="required"
 														title="required"
@@ -171,7 +171,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>
-													Last name
+													Фамилия
 													<abbr
 														class="required"
 														title="required"
@@ -187,7 +187,7 @@
 									</div>
 
 									<div class="form-group">
-										<label>Company name (optional)</label>
+										<label>Название компании (необязательно)</label>
 										<input
 											type="text"
 											class="form-control"
@@ -196,7 +196,7 @@
 
 									<div class="select-custom">
 										<label>
-											Country / Region
+                      Страна / Регион
 											<abbr
 												class="required"
 												title="required"
@@ -220,7 +220,7 @@
 
 									<div class="form-group mb-1 pb-2">
 										<label>
-											Street address
+                      Адрес улицы
 											<abbr
 												class="required"
 												title="required"
@@ -245,8 +245,8 @@
 
 									<div class="form-group">
 										<label>
-											Town / City
-											<abbr
+                      Город
+                      <abbr
 												class="required"
 												title="required"
 											>*</abbr>
@@ -260,7 +260,7 @@
 
 									<div class="select-custom">
 										<label>
-											State / County
+                      Штат / Страна
 											<abbr
 												class="required"
 												title="required"
@@ -284,7 +284,7 @@
 
 									<div class="form-group">
 										<label>
-											Postcode / Zip
+                      Почтовый индекс
 											<abbr
 												class="required"
 												title="required"
@@ -299,7 +299,7 @@
 
 									<div class="form-group">
 										<label>
-											Phone
+											Номер телефона
 											<abbr
 												class="required"
 												title="required"
@@ -314,7 +314,7 @@
 
 									<div class="form-group">
 										<label>
-											Email address
+											Адрес электронной почты
 											<abbr
 												class="required"
 												title="required"
@@ -341,14 +341,14 @@
 												aria-controls="collapseThree"
 												for="create-account"
 												@click="accountOpened = !accountOpened"
-											>Create an account?</label>
+											>Создать аккаунт?</label>
 										</div>
 									</div>
 
 									<vue-slide-toggle :open="accountOpened">
 										<div class="form-group">
 											<label>
-												Create account password
+                        Создать пароль учетной записи
 												<abbr
 													class="required"
 													title="required"
@@ -378,9 +378,9 @@
 												for="different-shipping"
 												@click="addressOpened = !addressOpened"
 											>
-												Ship to a
-												different
-												address?
+                        Доставка в
+                        другой
+                        адрес?
 											</label>
 										</div>
 									</div>
@@ -391,7 +391,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label>
-															First name
+															Имя
 															<abbr
 																class="required"
 																title="required"
@@ -408,7 +408,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label>
-															Last name
+															Фамилия
 															<abbr
 																class="required"
 																title="required"
@@ -424,7 +424,7 @@
 											</div>
 
 											<div class="form-group">
-												<label>Company name (optional)</label>
+												<label>Название компании (необязательно)</label>
 												<input
 													type="text"
 													class="form-control"
@@ -433,7 +433,7 @@
 
 											<div class="select-custom">
 												<label>
-													Country / Region
+													Страна / Регион
 													<span class="required">*</span>
 												</label>
 												<select
@@ -454,7 +454,7 @@
 
 											<div class="form-group mb-1 pb-2">
 												<label>
-													Street address
+													Адрес улицы
 													<abbr
 														class="required"
 														title="required"
@@ -479,7 +479,7 @@
 
 											<div class="form-group">
 												<label>
-													Town / City
+													Город
 													<abbr
 														class="required"
 														title="required"
@@ -494,7 +494,7 @@
 
 											<div class="select-custom">
 												<label>
-													State / County
+													Штат / Страна
 													<abbr
 														class="required"
 														title="required"
@@ -518,7 +518,7 @@
 
 											<div class="form-group">
 												<label>
-													Postcode / ZIP
+													Почтовый индекс
 													<abbr
 														class="required"
 														title="required"
@@ -534,7 +534,7 @@
 									</vue-slide-toggle>
 
 									<div class="form-group">
-										<label class="order-comments">Order notes (optional)</label>
+										<label class="order-comments">Коментарии к заказу (необязательно)</label>
 										<textarea
 											class="form-control"
 											placeholder="Notes about your order, e.g. special notes for delivery."
@@ -548,12 +548,12 @@
 
 					<div class="col-lg-5">
 						<div class="order-summary">
-							<h3>YOUR ORDER</h3>
+							<h3>Ваш заказ</h3>
 
 							<table class="table table-mini-cart">
 								<thead>
 									<tr>
-										<th colspan="2">Product</th>
+										<th colspan="2">Продукт</th>
 									</tr>
 								</thead>
 								<tbody v-if="cartList.length > 0">
@@ -569,21 +569,21 @@
 										</td>
 
 										<td class="price-col">
-											<span>${{product.price | priceFormat}}</span>
+											<span>{{product.price | priceFormat}}₽</span>
 										</td>
 									</tr>
 								</tbody>
 								<tbody v-else>
-									<p class="cart-empty-text ml-3">No products in the cart.</p>
+									<p class="cart-empty-text ml-3">Нет продуктов в корзине.</p>
 								</tbody>
 								<tfoot>
 									<tr class="cart-subtotal">
 										<td>
-											<h4>Subtotal</h4>
+											<h4>Итог</h4>
 										</td>
 
 										<td class="price-col">
-											<span>${{ totalPrice | priceFormat }}</span>
+											<span>{{ totalPrice | priceFormat }}₽</span>
 										</td>
 									</tr>
 									<tr class="order-shipping">
@@ -591,7 +591,7 @@
 											class="text-left"
 											colspan="2"
 										>
-											<h4 class="m-b-sm">Shipping</h4>
+											<h4 class="m-b-sm">Доставка</h4>
 
 											<div class="form-group form-group-custom-control">
 												<div class="custom-control custom-radio d-flex">
@@ -624,7 +624,7 @@
 										</td>
 										<td>
 											<b class="total-price">
-												<span>${{ totalPrice | priceFormat }}</span>
+												<span>{{ totalPrice | priceFormat }}₽</span>
 											</b>
 										</td>
 									</tr>
@@ -635,10 +635,10 @@
 								<h4 class>Payment methods</h4>
 								<div class="info-box with-icon p-0">
 									<p>
-										Sorry, it seems that there are no available
-										payment methods for your state. Please
-										contact us if you require assistance or wish
-										to make alternate arrangements.
+                    Извините, кажется, что нет доступных
+                    способы оплаты для вашего государства. Пожалуйста
+                    свяжитесь с нами, если вам нужна помощь или вы хотите
+                    сделать альтернативные меры.
 									</p>
 								</div>
 							</div>
@@ -647,7 +647,7 @@
 								type="submit"
 								class="btn btn-dark btn-place-order"
 								form="checkout-form"
-							>Place order</button>
+							>Разместить заказ</button>
 						</div>
 					</div>
 				</div>
@@ -714,7 +714,7 @@
 								<nuxt-link
 									to="/shop"
 									class="btn btn-go-shop"
-								>RETURN TO SHOP</nuxt-link>
+								>В МАГАЗИН</nuxt-link>
 							</td>
 						</tr>
 					</tbody>

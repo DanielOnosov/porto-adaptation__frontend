@@ -47,10 +47,10 @@
 						</h2>
 					</div>
 					<div class="col-md-3 col-sm-4 text-center text-sm-right">
-						<nuxt-link
+						<a
 							class="btn btn-light btn-white btn-lg"
-							to="/shop"
-						>View Sale</nuxt-link>
+							href="/shop"
+						>View Sale</a>
 					</div>
 				</div>
 			</div>
@@ -71,7 +71,7 @@
 					data-animation-name="fadeInUpShorter"
 					v-animate
 				>
-					<nuxt-link to="/shop">
+					<a href="/shop">
 						<figure>
 							<img
 								v-lazy="'./images/home/categories/category-1.jpg'"
@@ -86,7 +86,7 @@
 								<mark class="count">3</mark> products
 							</span>
 						</div>
-					</nuxt-link>
+					</a>
 				</div>
 
 				<div
@@ -94,7 +94,7 @@
 					data-animation-name="fadeInUpShorter"
 					v-animate
 				>
-					<nuxt-link to="/shop">
+					<a href="/shop">
 						<figure>
 							<img
 								v-lazy="'./images/home/categories/category-2.jpg'"
@@ -109,7 +109,7 @@
 								<mark class="count">3</mark> products
 							</span>
 						</div>
-					</nuxt-link>
+					</a>
 				</div>
 
 				<div
@@ -117,7 +117,7 @@
 					data-animation-name="fadeInUpShorter"
 					v-animate
 				>
-					<nuxt-link to="/shop">
+					<a href="/shop">
 						<figure>
 							<img
 								v-lazy="'./images/home/categories/category-3.jpg'"
@@ -132,7 +132,7 @@
 								<mark class="count">3</mark> products
 							</span>
 						</div>
-					</nuxt-link>
+					</a>
 				</div>
 
 				<div
@@ -140,7 +140,7 @@
 					data-animation-name="fadeInUpShorter"
 					v-animate
 				>
-					<nuxt-link to="/shop">
+					<a href="/shop">
 						<figure>
 							<img
 								v-lazy="'./images/home/categories/category-4.jpg'"
@@ -155,7 +155,7 @@
 								<mark class="count">3</mark> products
 							</span>
 						</div>
-					</nuxt-link>
+					</a>
 				</div>
 
 				<div
@@ -163,7 +163,7 @@
 					data-animation-name="fadeInUpShorter"
 					v-animate
 				>
-					<nuxt-link to="/shop">
+					<a href="/shop">
 						<figure>
 							<img
 								v-lazy="'./images/home/categories/category-6.jpg'"
@@ -178,7 +178,7 @@
 								<mark class="count">3</mark> products
 							</span>
 						</div>
-					</nuxt-link>
+					</a>
 				</div>
 
 				<div
@@ -186,7 +186,7 @@
 					data-animation-name="fadeInUpShorter"
 					v-animate
 				>
-					<nuxt-link to="/shop">
+					<a href="/shop">
 						<figure>
 							<img
 								v-lazy="'./images/home/categories/category-5.jpg'"
@@ -201,7 +201,7 @@
 								<mark class="count">3</mark> products
 							</span>
 						</div>
-					</nuxt-link>
+					</a>
 				</div>
 			</pv-carousel>
 		</div>

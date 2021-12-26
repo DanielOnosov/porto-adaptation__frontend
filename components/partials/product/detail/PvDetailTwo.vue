@@ -68,30 +68,30 @@
 			<li>
 				CATEGORY:
 				<strong>
-					<nuxt-link
-						:to="{path: '/shop', query: {category: item.slug}}"
+					<a
+						:href="{path: '/shop', query: {category: item.slug}}"
 						class="product-category"
 						v-for="(item,index) in product.product_categories"
 						:key="'product-category-' + index"
 					>
 						{{ item.name }}
 						<template v-if="index < product.product_categories.length - 1">,</template>
-					</nuxt-link>
+					</a>
 				</strong>
 			</li>
 
 			<li v-if="product.product_tags.length > 0">
 				TAGS:
 				<strong>
-					<nuxt-link
-						:to="{path: '/shop', query: {tag: item.slug}}"
+					<a
+						:href="{path: '/shop', query: {tag: item.slug}}"
 						class="product-category"
 						v-for="(item,index) in product.product_tags"
 						:key="'product-category-' + index"
 					>
 						{{ item.name }}
 						<template v-if="index < product.product_tags.length - 1">,</template>
-					</nuxt-link>
+					</a>
 				</strong>
 			</li>
 		</ul>
@@ -303,10 +303,10 @@
 						:class="{ disabled: !isCartActive }"
 					>Add to Cart</a>
 
-					<nuxt-link
-						to="/pages/cart"
+					<a
+						href="/pages/cart"
 						class="btn btn-gray view-cart d-none"
-					>View cart</nuxt-link>
+					>View cart</a>
 				</div>
 			</div>
 		</div>
@@ -320,44 +320,44 @@
 				<a
 					href="javascript:;"
 					class="social-icon social-facebook icon-facebook"
-					
+
 					title="Facebook"
 				></a>
 				<a
 					href="javascript:;"
 					class="social-icon social-twitter icon-twitter"
-					
+
 					title="Twitter"
 				></a>
 				<a
 					href="javascript:;"
 					class="social-icon social-linkedin fab fa-linkedin-in"
-					
+
 					title="Linkedin"
 				></a>
 				<a
 					href="javascript:;"
 					class="social-icon social-gplus fab fa-google-plus-g"
-					
+
 					title="Google +"
 				></a>
 				<a
 					href="javascript:;"
 					class="social-icon social-mail icon-mail-alt"
-					
+
 					title="Mail"
 				></a>
 			</div>
 
-			<nuxt-link
-				to="/pages/wishlist"
+			<a
+				href="/pages/wishlist"
 				class="btn-icon-wish add-wishlist added-wishlist"
 				title="Go to Wishlist"
 				v-if="isWishlisted"
 			>
 				<i class="icon-wishlist-2"></i>
 				<span>Go to Wishlist</span>
-			</nuxt-link>
+			</a>
 
 			<a
 				href="javascript:;"

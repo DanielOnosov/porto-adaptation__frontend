@@ -100,7 +100,9 @@ export default {
         { src: '~/plugins/filters.js', ssr: false },
         { src: '~/plugins/directives/animate.js', ssr: false },
         { src: '~/plugins/directives/parallax.js', ssr: false },
-        { src: '~/plugins/lightbox.js', ssr: false }
+        { src: '~/plugins/lightbox.js', ssr: false },
+        { src: '~/plugins/init' },
+        { src: '~/plugins/owl.js', ssr: false },
     ],
 
     buildModules: [
@@ -112,7 +114,21 @@ export default {
     modules: [
         '@nuxtjs/axios',
         '@nuxtjs/proxy',
-        '@nuxtjs/dotenv'
+        '@nuxtjs/dotenv',
+        ['nuxt-mail', {
+            message: {
+                to: 'onosov20071@gmail.com',
+            },
+            smtp: {
+                host: "smtp.yandex.ru",
+                port: 465,
+                secure: true, // true for 465, false for other ports
+                auth: {
+                    user: "devtestbox", // generated ethereal user
+                    pass: "bAXRgJb9RB6fRTZF" // generated ethereal password
+                }
+            },
+        }],
     ],
 
     // Axios module configuration: https://go.nuxtjs.dev/config-axios

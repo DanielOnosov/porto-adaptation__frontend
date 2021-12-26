@@ -1,19 +1,19 @@
 <template lang="html">
   <notifications
       group="addCartSuccess"
-      :duration="2000"
-      :width="300"
+      :duration="3000"
+      :width="400"
       :max="4"
       animation-name="fade-left"
       position="bottom right"
   >
     <template slot="body" slot-scope="props">
-      <div class="minipopup-box">
+      <div class="minipopup-box w-100">
         <div class="product">
           <figure class="product-media">
             <nuxt-link :to="'/product/default' + props.item.data.slug">
               <img
-                  :src="`//files.world.ms/${props.item.data.thumbs[0].url}`"
+                  :src="`//files.world.ms/${props.item.data.thumbs[0]}`"
                   alt="product"
               >
             </nuxt-link>
@@ -29,8 +29,8 @@
         </div>
 
         <div class="product-action">
-          <nuxt-link to="/pages/cart" class="btn viewcart">View Cart</nuxt-link>
-          <nuxt-link to="/pages/checkout" class="btn btn-dark checkout">Checkout</nuxt-link>
+          <nuxt-link to="/pages/cart" class="btn viewcart">Посмотреть корзину</nuxt-link>
+          <nuxt-link to="/pages/checkout" class="btn btn-dark checkout">Оформить</nuxt-link>
         </div>
 
         <button class="mfp-close" @click="props.close"></button>

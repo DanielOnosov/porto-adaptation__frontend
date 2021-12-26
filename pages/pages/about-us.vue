@@ -168,68 +168,33 @@
             <div class="container">
                 <div class="row">
                     <div class="col-6 col-md-4 count-container">
-                        <div class="count-wrapper">
-                            <pv-count-to
-                                class="count-to"
-                                :from="0"
-                                :to="200"
-                                :speed="2000"
-                                :interval="50"
-                            >200</pv-count-to>+
-                        </div>
                         <h4 class="count-title">MILLION CUSTOMERS</h4>
                     </div>
 
                     <div class="col-6 col-md-4 count-container">
                         <div class="count-wrapper">
-                            <pv-count-to
-                                class="count-to"
-                                :from="0"
-                                :to="1800"
-                                :speed="2000"
-                                :interval="50"
-                            >1800</pv-count-to>+
+
                         </div>
                         <h4 class="count-title">TEAM MEMBERS</h4>
                     </div>
 
                     <div class="col-6 col-md-4 count-container">
                         <div class="count-wrapper line-height-1">
-                            <pv-count-to
-                                class="count-to"
-                                :from="0"
-                                :to="24"
-                                :speed="2000"
-                                :interval="50"
-                            >24</pv-count-to>
-                            <span>HR</span>
+
                         </div>
                         <h4 class="count-title">SUPPORT AVAILABLE</h4>
                     </div>
 
                     <div class="col-6 col-md-4 count-container">
                         <div class="count-wrapper">
-                            <pv-count-to
-                                class="count-to"
-                                :from="0"
-                                :to="265"
-                                :speed="2000"
-                                :interval="50"
-                            >265</pv-count-to>+
+
                         </div>
                         <h4 class="count-title">SUPPORT AVAILABLE</h4>
                     </div>
 
                     <div class="col-6 col-md-4 count-container">
                         <div class="count-wrapper line-height-1">
-                            <pv-count-to
-                                class="count-to"
-                                :from="0"
-                                :to="99"
-                                :speed="2000"
-                                :interval="50"
-                            >99</pv-count-to>
-                            <span>%</span>
+
                         </div>
                         <h4 class="count-title">SUPPORT AVAILABLE</h4>
                     </div>
@@ -241,7 +206,6 @@
 
 <script>
 import PvCarousel from '~/components/features/PvCarousel';
-import PvCountTo from '~/components/features/PvCountTo';
 import { baseSlider4 } from '~/utils/data/carousel';
 
 export default {

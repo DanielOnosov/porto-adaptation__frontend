@@ -7,9 +7,9 @@
       >
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <nuxt-link to="/">
+            <a href="/">
               <i class="icon-home"></i>
-            </nuxt-link>
+            </a>
           </li>
           <li class="breadcrumb-item">
             <nuxt-link to="/shop">Shop</nuxt-link>
@@ -31,75 +31,81 @@
           </li>
         </ol>
       </nav>
-
       <div class="product-single-container product-single-default">
         <div
             class="row"
             v-if="product"
         >
           <div class="col-lg-5 col-md-6 product-single-gallery">
-            <div class="product-slider-container"></div>
-            <img
-                v-lazy="`//files.world.ms/${product.files[0]}`"
-                class="product-single-image"
-                alt="lgPicture">
+            <div class="slider-carousel-box">
+              <client-only>
+                <carousel :items="1" :loop="true" :nav="false" :dots="false" :lazyLoad="true" :lazyLoadEager="1">
+                  <div
+                      v-for="(img, index) in product.files"
+                      class="product-thumbnail"
+                      :key="index"
+                  >
+                    <img :src="'https://files.world.ms/' + img" alt="picture">
+                  </div>
+                </carousel>
+              </client-only>
+            </div>
           </div>
 
           <div class="col-lg-7 col-md-6 product-single-details">
+
             <h1 class="product-title" v-if="product.name">{{ product.name }}</h1>
             <hr class="short-divider">
             <div class="price-box">
-              <span class="new-price">
-                {{ product.price }}
+              <span class="new-price" v-if="product.price">
+                {{ product.price }} <span v-if="product.discount" class="h5 text-danger">   -{{product.discount}}%</span>
               </span>
-              <span class="new-price" v-if="product.discount > 0">
-                {{ product.price }} <p style="text-decoration: line-through">{{ product.price_start }}</p>
+              <span class="old-price" v-if="product.discount > 0 && product.price && product.price_start">
+                <p style="text-decoration: line-through">{{ product.price_start }}₽</p>
               </span>
             </div>
             <div class="product-desc" v-if="product.description">
               <p>{{ product.description }}</p>
             </div>
             <ul class="single-info-list">
-              <li>Артикул: <strong>{{ product.article }}</strong></li>
-              <li>Бренд: <strong>{{ product.brand_name }}</strong></li>
+              <li v-if="product.article">Артикул: <strong>{{ product.article }}</strong></li>
+              <li v-if="product.brand_name">Бренд: <strong>{{ product.brand_name }}</strong></li>
               <li v-if="product.brand_discription">Описание бренда: <strong>{{ product.brand_discription }}</strong>
+              <li v-if="product.color">Цвет: <strong>{{ product.color }}</strong></li>
+              <li v-if="product.size_chest">Размер груди: <strong>{{ product.color }}</strong></li>
+              <li v-if="product.size_hip">Размер бедра: <strong>{{ product.size_hip }}</strong></li>
+              <li v-if="product.size_russian">Русский размер: <strong>{{ product.size_russian }}</strong></li>
+              <li v-if="product.size_waist">Размер талии: <strong>{{ product.size_waist }}</strong></li>
+              <li v-if="product.size_vendor">Размер от производителя: <strong>{{ product.size_vendor }}</strong></li>
+              <li v-if="views.product.views">Просмотров:<strong>{{ views.product.views }}</strong>
               </li>
             </ul>
-
             <div class="product-action">
-              <div class="product-single-qty">
-                <pv-quantity-input
-                    :product="product"
-                    :qty="1"
-                ></pv-quantity-input>
-              </div>
               <a
-                  href="javascript:;"
+                  v-if="!isAddedToCart"
                   class="btn btn-dark add-cart mr-2"
                   title="Add to Cart"
                   @click="addCart"
-              >Add to Cart</a>
+              >Добавить в корзину</a>
 
-              <nuxt-link
-                  to="/pages/cart"
-                  class="btn btn-gray view-cart d-none"
-              >View cart
-              </nuxt-link>
+              <div v-if="isAddedToCart">
+                <a href="/pages/cart">Посмотреть корзину</a>
+              </div>
             </div>
 
             <hr class="divider mb-0 mt-0"/>
 
             <div class="product-single-share mb-3">
 
-              <nuxt-link
-                  to="/pages/wishlist"
+              <a
+                  href="/pages/wishlist"
                   class="btn-icon-wish add-wishlist added-wishlist"
                   title="Go to Wishlist"
                   v-if="isWishlisted"
               >
                 <i class="icon-wishlist-2"></i>
                 <span>Go to Wishlist</span>
-              </nuxt-link>
+              </a>
 
               <a
                   href="javascript:;"
@@ -142,7 +148,7 @@
                 role="tab"
                 aria-controls="product-desc-content"
                 aria-selected="true"
-            >Description</a>
+            >Описание</a>
           </li>
 
           <li class="nav-item">
@@ -154,7 +160,7 @@
                 role="tab"
                 aria-controls="product-size-content"
                 aria-selected="true"
-            >Size Guide</a>
+            >Таблица размеров</a>
           </li>
 
           <li
@@ -199,7 +205,7 @@
                 class="product-desc-content"
                 v-if="isFullwidth"
             >
-              <p class="mb-1">
+              <p class="mb-1" v-if="product.description">
                 {{ product.description }}
               </p>
 
@@ -211,7 +217,7 @@
                   class="float-right"
               />
 
-              <p>
+              <p v-if="product.description">
                 {{ product.description }}
               </p>
 
@@ -322,66 +328,7 @@
           >
             <div class="product-size-content">
               <div class="row">
-                <div class="col-md-4">
-                  <img
-                      :src="'https://d-themes.com/vue/porto/demo-4/images/products/body-shape.png'"
-                      width="217"
-                      height="398"
-                      alt="body shape"
-                      class="w-auto bg-transparent"
-                  />
-                </div>
-
-                <div class="col-md-8">
-                  <table class="table table-size">
-                    <thead>
-                    <tr>
-                      <th>SIZE</th>
-                      <th>CHEST(in.)</th>
-                      <th>WAIST(in.)</th>
-                      <th>HIPS(in.)</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>XS</td>
-                      <td>34-36</td>
-                      <td>27-29</td>
-                      <td>34.5-36.5</td>
-                    </tr>
-                    <tr>
-                      <td>S</td>
-                      <td>36-38</td>
-                      <td>29-31</td>
-                      <td>36.5-38.5</td>
-                    </tr>
-                    <tr>
-                      <td>M</td>
-                      <td>38-40</td>
-                      <td>31-33</td>
-                      <td>38.5-40.5</td>
-                    </tr>
-                    <tr>
-                      <td>L</td>
-                      <td>40-42</td>
-                      <td>33-36</td>
-                      <td>40.5-43.5</td>
-                    </tr>
-                    <tr>
-                      <td>XL</td>
-                      <td>42-45</td>
-                      <td>36-40</td>
-                      <td>43.5-47.5</td>
-                    </tr>
-                    <tr>
-                      <td>XXL</td>
-                      <td>45-48</td>
-                      <td>40-44</td>
-                      <td>47.5-51.5</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
+                <iframe :src="'/size_guide/' + product.name" frameborder="0"></iframe>
               </div>
             </div>
           </div>
@@ -423,6 +370,14 @@
           </div>
         </div>
       </pv-tabs>
+      <client-only>
+        <ais-experimental-configure-related-items :hit="hit" :matchingPatterns="matchingPatterns" />
+        <ais-hits>
+          <template v-slot="{ items }">
+            <pv-related-products v-if="items" :products="items"></pv-related-products>
+          </template>
+        </ais-hits>
+      </client-only>
     </div>
   </main>
 </template>
@@ -441,14 +396,20 @@ import 'instantsearch.css/themes/algolia-min.css'
 var token = '5DbWTsKyseQHD7Tk9xYCAhwKzPdUJjLtdzw5E3FnL8XxDfQCe3d7eEd6MvwTNuKa';
 var id = "a6ec5d3c-5d43-4585-bc71-8f40d09ff6d3";
 
+import {AisIndex, AisHits, AisExperimentalConfigureRelatedItems} from 'vue-instantsearch'
+
 export default {
+  layout: 'main',
   components: {
     PvDetailOne,
     PvDescOne,
     PvRelatedProducts,
     PvSmallCollection,
     PvQuantityInput,
-    PvTabs
+    PvTabs,
+    AisIndex,
+    AisHits,
+    AisExperimentalConfigureRelatedItems
   },
   async asyncData({$axios, route, app, params, req, res, redirect}) {
     // USE ONLY SERVER SIDE
@@ -519,40 +480,43 @@ export default {
       return {
         product: promiseGetProduct,
         views: promiseGetViews,
-        views_updated: promiseSetViews
+        views_updated: promiseSetViews,
       };
     }
   },
   mounted() {
-    console.log(this.product)
+    console.log(this.views)
   },
   data() {
     return {
       isCustom: false,
       isFullwidth: false,
       isAddition: false,
+      hit: {
+        id: this.$route.params.id,
+      },
+      matchingPatterns: {
+        name: { score: 2 },
+        brand_name: { score: 1 },
+      },
     };
-  },
-  watch: {
-    $route: function () {
-      this.getFlag();
-    }
-  },
-  created() {
-    this.getFlag();
   },
   computed: {
     ...mapGetters('wishlist', ['wishList']),
-    test: function () {
-      return "I am test and I contain: " + this.data;
-    },
-    days_created: function () {
-      return this.getNumberOfDays(this.product.date_created, Date.now());
-    },
+    ...mapGetters('cart', ['cartList']),
     isWishlisted: function () {
       if (
           this.wishList.findIndex(
               item => item.name === this.product.name
+          ) > -1
+      )
+        return true;
+      return false;
+    },
+    isAddedToCart: function () {
+      if (
+          this.cartList.findIndex(
+              item => item.id === this.product.id
           ) > -1
       )
         return true;
@@ -567,42 +531,35 @@ export default {
     }
   },
   methods: {
-    ...mapActions('cart', ['addToCart']),
-    ...mapActions('wishlist', ['addToWishlist']),
-    addCart() {
-      let saledProduct = {
-        ...this.product,
-        qty: 1,
-        name: this.product.name,
-        price: this.product.price
-      }
+      ...mapActions('cart', ['addToCart']),
+      ...mapActions('wishlist', ['addToWishlist']),
+      addCart() {
+        let saledProduct = {
+          ...this.product,
+          qty: 1,
+          name: this.product.name,
+          price: this.product.price
+        }
 
-      this.addToCart({product: saledProduct});
-    },
-    addWishlist(e) {
-      e.currentTarget.classList.add('load-more-overlay', 'loading');
-
-      setTimeout(() => {
-        this.addToWishlist({product: this.product});
-        document
-            .querySelector('.wishlist-popup')
-            .classList.add('active');
+        this.addToCart({product: saledProduct});
+      },
+      addWishlist(e) {
+        e.currentTarget.classList.add('load-more-overlay', 'loading');
 
         setTimeout(() => {
+          this.addToWishlist({product: this.product});
           document
               .querySelector('.wishlist-popup')
-              .classList.remove('active');
+              .classList.add('active');
+
+          setTimeout(() => {
+            document
+                .querySelector('.wishlist-popup')
+                .classList.remove('active');
+          }, 1000);
         }, 1000);
-      }, 1000);
-    },
-    getFlag: function () {
-      if (this.$route.params.type === 'custom-tab') this.isCustom = true;
-      if (this.$route.path.includes('fullwidth')) this.isFullwidth = true;
-      if (this.$route.path.includes('sticky-info')) this.isCustom = true;
-      if (this.$route.path.includes('sticky-both'))
-        this.isAddition = true;
-    },
-  }
+      },
+    }
 }
 </script>
 <style scoped lang="scss">
@@ -610,5 +567,9 @@ export default {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
+}
+
+.ais-InstantSearch {
+  display: block !important;
 }
 </style>

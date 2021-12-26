@@ -61,6 +61,12 @@
 
 <script>
 export default {
-
+  mounted() {
+    let id = localStorage.getItem('id')
+    if(id){
+      this.$router.push('/profile/' + id)
+      setTimeout(() => {location.reload()},500)
+    }
+  }
 }
 </script>

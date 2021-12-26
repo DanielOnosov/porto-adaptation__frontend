@@ -16,12 +16,12 @@
 							<li
 								class="breadcrumb-item active"
 								aria-current="page"
-							>Wishlist</li>
+							>Избранное</li>
 						</ol>
 					</div>
 				</nav>
 
-				<h1>Wishlist</h1>
+				<h1>Избранное</h1>
 			</div>
 		</div>
 
@@ -34,7 +34,7 @@
 					class="single-cart-notice"
 					v-if="currentProduct"
 				>“{{ currentProduct.name }}”</strong>
-				<span>has been added to cart successfully.</span>
+				<span>был успешно добавлен в корзину.</span>
 			</div>
 
 			<div
@@ -45,11 +45,11 @@
 					class="single-cart-notice"
 					v-if="currentProduct"
 				>“{{ currentProduct.name }}”</strong>
-				<span>has been successfully removed.</span>
+				<span>был успешно удален.</span>
 			</div>
 
 			<div class="wishlist-title">
-				<h2 class="p-2">My wishlist on Porto Shop {{ currentDemo }}</h2>
+				<h2 class="p-2">Избранное</h2>
 			</div>
 
 			<div
@@ -61,10 +61,10 @@
 					<thead>
 						<tr>
 							<th class="thumbnail-col"></th>
-							<th class="product-col">Product</th>
-							<th class="price-col">Price</th>
-							<th class="status-col">Stock Status</th>
-							<th class="action-col">Actions</th>
+							<th class="product-col">Название</th>
+							<th class="price-col">Цена</th>
+							<th class="status-col">Бренд</th>
+							<th class="action-col">Действия</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -76,7 +76,7 @@
 							<td>
 								<figure class="product-image-container">
 									<nuxt-link
-										:to="'/product/default/' + product.slug"
+										:to="'/catalog/' + product.slug"
 										class="product-image"
 									>
 										<img
@@ -95,7 +95,7 @@
 							</td>
 							<td>
 								<h5 class="product-title">
-									<nuxt-link :to="'/product/default/' + product.slug">{{ product.name }}</nuxt-link>
+									<nuxt-link :to="'/catalog/' + product.slug">{{ product.name }}</nuxt-link>
 								</h5>
 							</td>
 
@@ -104,13 +104,13 @@
 								v-if="product.price"
 								key="singlePrice"
 							>
-								<template v-if="!product.is_sale">
-									<span class="new-price">${{ product.price | priceFormat }}</span>
+								<template v-if="!product.price_start">
+									<span class="new-price">{{ product.price | priceFormat }}₽</span>
 								</template>
 
 								<template v-else>
-									<span class="new-price">${{ product.sale_price | priceFormat }}</span>
-									<span class="old-price">${{ product.price | priceFormat }}</span>
+									<span class="new-price">{{ product.price | priceFormat }}₽</span>
+									<span class="old-price">{{ product.price_start | priceFormat }}₽</span>
 								</template>
 							</td>
 
@@ -118,38 +118,30 @@
 								class="price-box"
 								v-else
 							>
-								<template v-if="product.minPrice !== product.maxPrice">
-									<span class="new-price">${{ product.minPrice | priceFormat }} &ndash; ${{ product.maxPrice | priceFormat }}</span>
+								<template v-if="product.price !== product.price_start">
+									<span class="new-price">${{ product.price | priceFormat }} &ndash; ${{ product.price_start | priceFormat }}</span>
 								</template>
 
 								<template v-else>
-									<span class="new-price">${{ product.minPrice | priceFormat }}</span>
+									<span class="new-price">{{ product.price | priceFormat }}₽</span>
 								</template>
 							</td>
 
 							<td>
-								<span class="stock-status">In stock</span>
+								<span class="stock-status">{{ product.brand_name }}</span>
 							</td>
 							<td class="action">
-								<a
-									href="javascript:;"
-									class="btn btn-quickview mt-1 mt-md-0"
-									@click="openQuickview(product)"
-									title="Quick View"
-									key="singleCart"
-								>Quick View</a>
+								<button
+                    class="btn btn-dark btn-add-cart product-type-simple btn-shop"
+                >
+                  <nuxt-link class="text-white" :to="'/catalog/' + product.id">Перейти на страницу товара</nuxt-link>
+                </button>
 
 								<button
 									class="btn btn-dark btn-add-cart product-type-simple btn-shop"
 									@click="addCart( product )"
 									v-if="product.length === 0"
-								>ADD TO CART</button>
-
-								<nuxt-link
-									:to="'/product/default/' + product.slug"
-									class="btn btn-dark btn-add-cart btn-shop"
-									v-else
-								>SELECT OPTION</nuxt-link>
+								>Добавить в корзину</button>
 							</td>
 						</tr>
 					</tbody>
@@ -174,19 +166,19 @@
 								<th class="product-thumbnail"></th>
 
 								<th class="product-name">
-									<span class="nobr">Product</span>
+									<span class="nobr">Продукт</span>
 								</th>
 
 								<th class="product-price">
-									<span class="nobr">price</span>
+									<span class="nobr">Цена</span>
 								</th>
 
 								<th class="product-stock-status">
-									<span class="nobr">Stock status</span>
+									<span class="nobr">Статус</span>
 								</th>
 
 								<th class="product-add-to-cart">
-									<span class="nobr">Actions</span>
+									<span class="nobr">Действия</span>
 								</th>
 							</tr>
 						</thead>
@@ -204,7 +196,7 @@
 								<td
 									colspan="6"
 									class="px-3 wishlist-empty wishlist-text"
-								>No products added to the wishlist</td>
+								>В список желаний ничего не добавлено</td>
 							</tr>
 							<tr class="border-0">
 								<td
@@ -212,9 +204,9 @@
 									class="px-3 text-center pb-5 pb-md-0"
 								>
 									<nuxt-link
-										to="/shop"
+										to="/"
 										class="btn btn-go-shop"
-									>GO SHOP</nuxt-link>
+									>В магазин</nuxt-link>
 								</td>
 							</tr>
 						</tbody>
@@ -271,9 +263,6 @@ export default {
 					}
 				]
 			}, [] )
-		},
-		openQuickview: function ( product ) {
-			this.$modal.show( () => import( '~/components/features/product/PvQuickview' ), { slug: product.slug }, { width: '931', height: 'auto', adaptive: true, class: 'quickview-modal' } );
 		},
 		addCart: function ( product ) {
 			this.currentProduct = product;

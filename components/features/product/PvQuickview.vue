@@ -15,17 +15,14 @@
 			v-if="product"
 		>
 			<div class="col-md-6 product-single-gallery mb-md-0">
-				<pv-media-one
-					:product="product"
-					:is-magnify="false"
-				></pv-media-one>
+        <img :src="`//files.world.ms/${product.thumbs}`" alt="">
 			</div>
 
 			<div class="col-md-6 product-single-details mb-0">
-				<pv-detail-one
-					:product="product"
-					:is-product-nav="false"
-				></pv-detail-one>
+        <pv-detail-one
+            :product="product"
+            :is-product-nav="false"
+        ></pv-detail-one>
 			</div>
 
 			<button
@@ -39,27 +36,20 @@
 </template>
 
 <script>
-import PvMediaOne from '~/components/partials/product/media/PvMediaOne';
-import PvDetailOne from '~/components/partials/product/detail/PvDetailOne';
 import Respository, { baseUrl, currentDemo } from '~/api';
+import PvDetailOne from "~/components/partials/product/detail/PvDetailOne";
 
 export default {
-	components: {
-		PvMediaOne,
-		PvDetailOne
-	},
-	props: {
-		slug: String
-	},
+  props: ['product'],
 	data: function () {
 		return {
-			product: null,
 			currentDemo: currentDemo
 		}
 	},
 	mounted: function () {
 		this.getProduct();
 	},
+  components: {PvDetailOne},
 	methods: {
 		getProduct: function () {
 			Respository.get( `${ baseUrl }/products/${ this.slug }`, { params: { demo: currentDemo, 'quick_view': true } } ).then( response => {

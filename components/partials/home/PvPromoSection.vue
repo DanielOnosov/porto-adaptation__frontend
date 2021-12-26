@@ -24,10 +24,10 @@
 					data-animation-name="fadeIn"
 					data-animation-delay="300"
 				>
-					<nuxt-link
-						to="/shop"
+					<a
+						href="/shop"
 						class="btn btn-dark btn-black ls-10"
-					>View Sale</nuxt-link>
+					>View Sale</a>
 				</div>
 				<div
 					class="col-md-4 mr-xl-auto text-md-left appear-animate"

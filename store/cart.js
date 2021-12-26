@@ -45,7 +45,7 @@ export const actions = {
 
 export const mutations = {
     [ ADD_TO_CART ]( state, payload ) {
-        let isAdded = state.data.findIndex( item => item.name === payload.product.name ) > -1;
+        let isAdded = state.data.findIndex( item => item.id === payload.product.id ) > -1;
         let qty = payload.product.qty ? payload.product.qty : 1;
         payload.product.qty = qty;
 

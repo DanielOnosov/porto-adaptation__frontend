@@ -1,106 +1,205 @@
 <template>
-	<main class="main home-page">
-		<pv-intro-section></pv-intro-section>
+  <main class="main skeleton-body mt-1">
+    <div class="container-fluid">
+      <ais-configure :hits-per-page.camel="12"/>
+      <div class="row">
+        <img src="~/static/images/menu.png" class="fixed-icon position-fixed" alt="menu" @click="isActive = !isActive">
+        <div class="col-lg-3 position-sticky menu-z">
+          <div class="menu-open" v-if="isActive">
+            <InstantClearRefinement/>
+            <!-- <br /> -->
+            <InstantName/>
+            <br/>
+            <InstantBrand/>
+            <br/>
+            <InstantPrice/>
+            <br/>
+            <InstantDiscount/>
+            <br/>
+            <InstantSizeRussian/>
+            <br/>
+            <InstantSizeVendor/>
+          </div>
+          <br/>
+        </div>
 
-		<pv-service-section></pv-service-section>
-
-		<pv-featured-collection :products="featuredProducts"></pv-featured-collection>
-
-		<pv-new-collection :products="newProducts"></pv-new-collection>
-
-		<pv-feature-section></pv-feature-section>
-
-		<pv-promo-section></pv-promo-section>
-
-		<pv-blog-section :posts="posts"></pv-blog-section>
-
-		<div class="container">
-			<pv-small-collection
-				:featured-products="featuredProducts.slice(0,3)"
-				:best-products="bestProducts.slice(0,3)"
-				:latest-products="newProducts.slice(0,3)"
-				:top-rated-products="topRatedProducts.slice(0,3)"
-			></pv-small-collection>
-		</div>
-	</main>
+        <div class="col-lg-9">
+          <div class="d-flex my-3">
+            <ais-sort-by
+                :items="[
+          { value: 'products', label: 'Сначала рекомендуемые' },
+          { value: 'products/sort/price:asc', label: 'Сначала дешевые' },
+          { value: 'products/sort/price:desc', label: 'Сначала дорогие' },
+          { value: 'products/sort/discount:desc', label: 'По размеру скидки' },
+          { value: 'products/sort/date_created_timestamp:desc', label: 'Сначала новые' },
+          { value: 'products/sort/date_created_timestamp:asc', label: 'Сначала старые' },
+        ]"
+                :class-names="{
+          'ais-SortBy': '',
+          'ais-SortBy-select': 'form-select',
+        }"
+            />
+            <InstantMetaStats class="w-25"/>
+          </div>
+          <ais-infinite-hits>
+            <template v-slot="{ items,refineNext, isLastPage }">
+              <article class="w-100 flex-wrap d-flex flex-row">
+                <div v-for="item in items" :key="item.objectID" class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-0">
+                  <SlCard class="mx-4 p-0 cursor-pointer" :product="item"></SlCard>
+                </div>
+              </article>
+              <div v-if="!isLastPage">
+                <div class="d-flex align-content-center align-items-center">
+                  <button class="btn btn-sm btn-light my-4" @click="refineNext">Показать больше результатов</button>
+                  <ais-pagination/>
+                </div>
+              </div>
+            </template>
+          </ais-infinite-hits>
+        </div>
+      </div>
+    </div>
+  </main>
 </template>
 
 <script>
-import PvIntroSection from '~/components/partials/home/PvIntroSection';
-import PvServiceSection from '~/components/partials/home/PvServiceSection';
-import PvFeaturedCollection from '~/components/partials/home/PvFeaturedCollection';
-import PvNewCollection from '~/components/partials/home/PvNewCollection';
-import PvFeatureSection from '~/components/partials/home/PvFeatureSection';
-import PvPromoSection from '~/components/partials/home/PvPromoSection';
-import PvBlogSection from '~/components/partials/home/PvBlogSection';
-import PvSmallCollection from '~/components/partials/product/PvSmallCollection';
+// https://www.algolia.com/doc/guides/building-search-ui/going-further/server-side-rendering/vue/
+import SlCard from '~/components/sl/card'
+
+import InstantMetaStats from '~/components/Instant/stats'
+import InstantSortBy from '~/components/Instant/sortBy'
+
+import InstantClearRefinement from '~/components/Instant/facet/clearRefinement'
+import InstantBrand from '~/components/Instant/facet/brand'
+import InstantDiscount from '~/components/Instant/facet/discount'
+import InstantName from '~/components/Instant/facet/name'
+import InstantSizeRussian from '~/components/Instant/facet/sizeRussian'
+import InstantSizeVendor from '~/components/Instant/facet/sizeVendor'
+import InstantPrice from '~/components/Instant/facet/price'
+
 import {
-	getProductsByAttri,
-	getTopSellingProducts,
-	getTopRatedProducts
-} from '~/utils/service';
-import { getCookie } from '~/utils';
-import Api, { baseUrl } from '~/api';
+  AisInstantSearchSsr,
+  AisRefinementList,
+  AisHits,
+  AisHighlight,
+  AisSearchBox,
+  AisStats,
+  AisPagination,
+  AisSnippet,
+  AisStateResults,
+  AisPoweredBy,
+  AisSortBy,
+  createServerRootMixin,
+  AisInstantSearch,
+  AisIndex,
+  AisConfigure,
+  AisAutocomplete,
+  AisRangeInput,
+  AisCurrentRefinements,
+  AisHitsPerPage,
+  AisInfiniteHits,
+} from 'vue-instantsearch'
 
 export default {
-	components: {
-		PvIntroSection,
-		PvServiceSection,
-		PvFeatureSection,
-		PvNewCollection,
-		PvFeaturedCollection,
-		PvPromoSection,
-		PvBlogSection,
-		PvSmallCollection
-	},
-	data: function () {
-		return {
-			products: [],
-			posts: [],
-			featuredProducts: [],
-			newProducts: [],
-			bestProducts: [],
-			topRatedProducts: [],
-			timerId: 0
-		};
-	},
-	mounted: function () {
-		Api.get( `${ baseUrl }/demo4` )
-			.then( response => {
-				this.products = response.data.products;
-				this.posts = response.data.posts;
-				this.featuredProducts = getProductsByAttri(
-					response.data.products
-				);
-				this.newProducts = getProductsByAttri(
-					response.data.products,
-					'is_new'
-				);
-				this.bestProducts = getTopSellingProducts(
-					response.data.products
-				);
-				this.topRatedProducts = getTopRatedProducts(
-					response.data.products
-				);
-			} )
-			.catch( error => ( { error: JSON.stringify( error ) } ) );
+  layout: 'main',
+  asyncData() {
+    return {};
+  },
+  data() {
+    return {
+      isActive: true
+    };
+  },
+  provide() {
+  },
+  serverPrefetch() {
+  },
+  mounted(){
+    if(window.innerWidth < 980){
+      this.isActive = false;
+    }
 
-		this.timerId = setTimeout( () => {
-			if (
-				this.$route.path === '/' &&
-				getCookie( 'newsletter' ) !== 'false'
-			) {
-				this.$modal.show(
-					() =>
-						import( '~/components/features/modal/PvNewsletterModal' ),
-					{},
-					{ width: '740', height: 'auto', adaptive: true, class: 'newsletter-modal' }
-				);
-			}
-		}, 10000 );
-	},
-	destroyed: function () {
-		clearTimeout( this.timerId );
-	}
+    setInterval(() => {
+      if(window.pageYOffset > 180){
+        document.querySelector('.fixed-icon').style.top = '80px'
+      } else {
+        document.querySelector('.fixed-icon').style.top = '170px'
+      }
+    },500)
+
+    setInterval(() => {
+      if(window.innerWidth > 980){
+        this.isActive = true;
+      }
+    }, 2000)
+  },
+  components: {
+    AisInstantSearchSsr,
+    AisRefinementList,
+    AisHits,
+    AisHighlight,
+    AisSearchBox,
+    AisStats,
+    AisPagination,
+    AisSnippet,
+    AisStateResults,
+    AisPoweredBy,
+    createServerRootMixin,
+    AisInstantSearch,
+    AisIndex,
+    AisConfigure,
+    AisAutocomplete,
+    AisRangeInput,
+    AisCurrentRefinements,
+    AisHitsPerPage,
+    SlCard,
+    AisSortBy,
+    AisInfiniteHits,
+    InstantBrand,
+    InstantClearRefinement,
+    InstantDiscount,
+    InstantName,
+    InstantPrice,
+    InstantSizeRussian,
+    InstantSizeVendor,
+    InstantMetaStats,
+    InstantSortBy
+  }
 };
+
 </script>
+<style lang="css" scoped>
+.ais-InstantSearch {
+  grid-template: "sidebar info";
+  display: grid ;
+}
+
+.fixed-icon {
+  width: 50px !important;
+  z-index: 3;
+  right: 15px;
+  top: 70px;
+  display: none;
+}
+
+@media screen and (max-width: 978px){
+  .fixed-icon {
+    display: block;
+    transition: top .2s linear;
+  }
+
+  .menu-open {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: scroll;
+    background: white;
+  }
+
+  .menu-z {
+    z-index: 2;
+  }
+}
+</style>

@@ -2,13 +2,13 @@
 	<div class="container">
 		<ul class="checkout-progress-bar d-flex justify-content-center flex-wrap">
 			<li class="active">
-				<a href="javascript:;">Shopping Cart</a>
+				<a href="javascript:;">Корзина</a>
 			</li>
 			<li>
-				<nuxt-link to="/pages/checkout">Checkout</nuxt-link>
+				<a href="/pages/checkout">Офомление заказа</a>
 			</li>
 			<li class="disabled">
-				<a href="javascript:;">Order Complete</a>
+				<a href="javascript:;">Заказ завершен</a>
 			</li>
 		</ul>
 
@@ -23,10 +23,9 @@
 						<thead>
 							<tr>
 								<th class="thumbnail-col"></th>
-								<th class="product-col">Product</th>
-								<th class="price-col">Price</th>
-								<th class="qty-col">Quantity</th>
-								<th class="text-right">Subtotal</th>
+								<th class="product-col">Продукт</th>
+								<th class="price-col">Цена</th>
+								<th class="text-right">Итог</th>
 							</tr>
 						</thead>
 
@@ -38,15 +37,15 @@
 							>
 								<td>
 									<figure class="product-image-container">
-										<nuxt-link
-											:to="'/product/default/' + product.slug"
+										<a
+											:href="'/catalog/' + product.id"
 											class="product-image"
 										>
 											<img
 												:src="`//files.world.ms/${product.thumbs[0]}`"
 												alt="product"
 											/>
-										</nuxt-link>
+										</a>
 
 										<a
 											href="javascript:;"
@@ -59,27 +58,19 @@
 
 								<td class="product-col">
 									<h5 class="product-title">
-										<nuxt-link :to="'/product/default/' + product.slug">{{ product.name }}</nuxt-link>
+										<a :href="'/catalog/' + product.id">{{ product.name }}</a>
 									</h5>
 								</td>
 
-								<td>${{ product.price | priceFormat }}</td>
-
-								<td>
-									<pv-quantity-input
-										:qty="product.qty"
-										:product="product"
-										@changeQty="changeQty"
-									></pv-quantity-input>
-								</td>
+								<td>{{ product.price | priceFormat }}₽</td>
 
 								<td class="text-right">
-									<span class="subtotal-price">${{ product.price * product.qty | priceFormat }}</span>
+									<span class="subtotal-price">{{ product.price | priceFormat }}v</span>
 								</td>
 							</tr>
 						</tbody>
 
-						<tfoot>
+<!--						<tfoot>
 							<tr>
 								<td
 									colspan="5"
@@ -118,19 +109,19 @@
 									</div>
 								</td>
 							</tr>
-						</tfoot>
+						</tfoot>-->
 					</table>
 				</div>
 			</div>
 
 			<div class="col-lg-4">
 				<div class="cart-summary">
-					<h3>CART TOTALS</h3>
+					<h3>Заказ</h3>
 
 					<table class="table table-totals">
 						<tbody>
 							<tr>
-								<td>Subtotal</td>
+								<td>Итог</td>
 								<td>${{ totalPrice | priceFormat }}</td>
 							</tr>
 
@@ -139,7 +130,7 @@
 									colspan="2"
 									class="text-left"
 								>
-									<h4>Shipping</h4>
+									<h4>Доставка</h4>
 
 									<div class="form-group form-group-custom-control">
 										<div class="custom-control custom-radio">
@@ -224,13 +215,13 @@
 					</table>
 
 					<div class="checkout-methods">
-						<nuxt-link
-							to="/pages/checkout"
+						<a
+							href="/pages/checkout"
 							class="btn btn-block btn-dark"
 						>
 							Proceed to Checkout
 							<i class="fa fa-arrow-right"></i>
-						</nuxt-link>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -293,10 +284,10 @@
 							colspan="6"
 							class="px-3 text-center"
 						>
-							<nuxt-link
-								to="/shop"
+							<a
+								href="/"
 								class="btn btn-go-shop"
-							>GO SHOP</nuxt-link>
+							>В магазин</a>
 						</td>
 					</tr>
 				</tbody>

@@ -1,9 +1,9 @@
 <template>
 	<header class="header">
 		<div class="header-top">
-			<div class="container">
+			<div class="container-fluid">
 				<div class="header-left d-none d-sm-block">
-					<p class="top-message text-uppercase">FREE Returns. Standard Shipping Orders $99+</p>
+					<p class="top-message text-uppercase">+123 4567 89 | email@email.com</p>
 				</div>
 
 				<div class="header-right header-dropdowns ml-0 ml-sm-auto w-sm-100">
@@ -12,56 +12,16 @@
 						<div class="header-menu">
 							<ul>
 								<li>
-									<nuxt-link to="/pages/account">My Account</nuxt-link>
+									<a href="/pages/login/">Мой аккаунт</a>
 								</li>
 								<li>
-									<nuxt-link to="/pages/about-us">About Us</nuxt-link>
+									<a href="/pages/about-us">О нас</a>
 								</li>
 								<li>
-									<nuxt-link to="/pages/blog">Blog</nuxt-link>
+									<a href="/pages/wishlist">Избранное</a>
 								</li>
 								<li>
-									<nuxt-link to="/pages/wishlist">My Wishlist</nuxt-link>
-								</li>
-								<li>
-									<nuxt-link to="/pages/cart">Cart</nuxt-link>
-								</li>
-							</ul>
-						</div>
-					</div>
-
-					<span class="separator"></span>
-
-					<div class="header-dropdown">
-						<a href="javascript:;">
-							<i class="flag-us flag"></i>ENG
-						</a>
-
-						<div class="header-menu">
-							<ul>
-								<li>
-									<a href="javascript:;">
-										<i class="flag-us flag mr-2"></i>ENG
-									</a>
-								</li>
-								<li>
-									<a href="javascript:;">
-										<i class="flag-fr flag mr-2"></i>FRA
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-
-					<div class="header-dropdown mr-auto mr-sm-3 mr-md-0">
-						<a href="javascript:;">USD</a>
-						<div class="header-menu">
-							<ul>
-								<li>
-									<a href="javascript:;">EUR</a>
-								</li>
-								<li>
-									<a href="javascript:;">USD</a>
+									<a href="/pages/cart">Корзина</a>
 								</li>
 							</ul>
 						</div>
@@ -73,17 +33,17 @@
 						<a
 							href="javascript:;"
 							class="social-icon social-facebook icon-facebook"
-							
+
 						></a>
 						<a
 							href="javascript:;"
 							class="social-icon social-twitter icon-twitter"
-							
+
 						></a>
 						<a
 							href="javascript:;"
 							class="social-icon social-instagram icon-instagram"
-							
+
 						></a>
 					</div>
 				</div>
@@ -91,7 +51,7 @@
 		</div>
 
 		<div class="header-middle sticky-header mobile-sticky">
-			<div class="container">
+			<div class="container-fluid">
 				<div class="header-left col-lg-2 w-auto pl-0">
 					<button
 						class="mobile-menu-toggler text-primary mr-2"
@@ -113,25 +73,8 @@
 					</nuxt-link>
 				</div>
 
-				<div class="header-right w-lg-max">
-					<pv-header-search></pv-header-search>
-
-					<div class="header-contact d-none d-lg-flex pl-4 pr-4">
-						<img
-							alt="phone"
-							src="~/static/images/phone.png"
-							width="30"
-							height="30"
-							class="pb-1"
-						/>
-						<h6>
-							<span>Call us now</span>
-							<a
-								href="tel:#"
-								class="text-dark font1"
-							>+123 5678 890</a>
-						</h6>
-					</div>
+				<div class="header-right w-100 w-lg-max">
+					<pv-header-search class="mr-3"></pv-header-search>
 
 					<a
 						href="javascript:;"
@@ -142,21 +85,14 @@
 						<i class="icon-user-2"></i>
 					</a>
 
-					<nuxt-link
-						to="/pages/wishlist"
-						class="header-icon"
-						title="wishlist"
-					>
-						<i class="icon-wishlist-2"></i>
-					</nuxt-link>
-
+					<pv-wishlist-menu class="mr-3"></pv-wishlist-menu>
 					<pv-cart-menu></pv-cart-menu>
 				</div>
 			</div>
 		</div>
 
 		<div class="header-bottom sticky-header d-none d-lg-block desktop-sticky">
-			<div class="container">
+			<div class="container-fluid">
 				<pv-main-menu></pv-main-menu>
 			</div>
 		</div>
@@ -166,22 +102,32 @@
 <script>
 import PvMainMenu from '~/components/common/partials/PvMainMenu';
 import PvCartMenu from '~/components/common/partials/PvCartMenu';
+import PvWishlistMenu from '~/components/common/partials/PvWishlistMenu';
 import PvHeaderSearch from '~/components/common/partials/PvHeaderSearch';
+import {mapGetters} from "vuex";
 
 
 export default {
 	components: {
 		PvMainMenu,
 		PvCartMenu,
-		PvHeaderSearch
+		PvHeaderSearch,
+    PvWishlistMenu
 	},
 	methods: {
 		openLoginModal: function () {
-			this.$modal.show(
-				() => import( '~/components/features/modal/PvLoginModal' ),
-				{},
-				{ width: '525', height: 'auto', adaptive: true }
-			);
+      let id = localStorage.getItem('id')
+      if(id){
+        this.$router.push('/profile/' + id)
+        setTimeout(() => {
+          location.reload()
+        },500)
+      } else {
+        this.$router.push('/pages/login')
+        setTimeout(() => {
+          location.reload()
+        },500)
+      }
 		},
 		showMobileMenu: function () {
 			document.querySelector( 'body' ).classList.add( 'mmenu-active' );
@@ -197,6 +143,9 @@ export default {
 	mounted(){
 		document.querySelector( 'body' ).classList.add( 'loaded' );
 
-	}
+	},
+  computed: {
+    ...mapGetters( 'wishlist', [ 'totalCount' ] )
+  },
 };
 </script>

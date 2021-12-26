@@ -7,12 +7,12 @@
 			class="page-item"
 			v-if="currentPage > 1"
 		>
-			<nuxt-link
+			<a
 				class="page-link page-link-btn"
-				:to="prevPage"
+				:href="prevPage"
 			>
 				<i class="icon-angle-left"></i>
-			</nuxt-link>
+			</a>
 		</li>
 		<li
 			class="page-item"
@@ -20,25 +20,25 @@
 			:key="'page'+number"
 			@click="changePage(number)"
 		>
-			<nuxt-link
+			<a
 				class="page-link"
 				:class="{active: number === currentPage}"
-				:to="getPageLinkUrl(number)"
+				:href="getPageLinkUrl(number)"
 			>
 				{{ number }}
 				<span class="sr-only">(current)</span>
-			</nuxt-link>
+			</a>
 		</li>
 		<li
 			class="page-item"
 			v-if="currentPage < totalPage"
 		>
-			<nuxt-link
+			<a
 				class="page-link page-link-btn"
-				:to="nextPage"
+				:href="nextPage"
 			>
 				<i class="icon-angle-right"></i>
-			</nuxt-link>
+			</a>
 		</li>
 	</ul>
 </template>
